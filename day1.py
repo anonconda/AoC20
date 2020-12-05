@@ -21,18 +21,13 @@ values = set(input)
 for val in input:
     diff = target - val
     if diff in values:
-        print(val, diff)
-        print(f"Product: {val*diff}")
+        print(f"Product ({val}, {diff}): {val*diff}")
         # If only one solution is necessary we can 'break' here
 
 # Part 2: Find 3 numbers that sum to 2020 and multiple them
 from itertools import combinations
 
-# TODO can I make this algorithm more efficient?
-#  Ex: sort input at the start and wrap combinations in a function to yield the triplets instead of storing in memory
-triplets = sorted(combinations(input, 3))
-for vals in triplets:
-    if sum(vals) == target:
-        print(vals)
-        print(f"Product: {vals[0]*vals[1]*vals[2]}")
+for triplet in combinations(input, 3):
+    if sum(triplet) == target:
+        print(f"Product {triplet}: {triplet[0]*triplet[1]*triplet[2]}")
         break
