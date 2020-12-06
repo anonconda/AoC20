@@ -7,15 +7,16 @@ with open(r"./day5_input") as fh:
     for row in fh:
         boarding_pass.append(row.strip("\n"))
 
+# Disable/Enable visual check
+dis = True
+
 # Part 1: Find seat values (row, col, id)
 # Example of --> input: expect values
 # FBFBBFFRLR: row 44, column 5, seat ID 357 (44 * 8 + 5 = 357).
-# BFFFBBFRRR: row 70, column 7, seat ID 567.
-# FFFBBBFRRR: row 14, column 7, seat ID 119.
-# BBFFBBFRLL: row 102, column 4, seat ID 820.
 
-# Disable/Enable visual check
-dis = True
+# Sectors dimensions, (X, Y) coordinates
+row_sector = (0, 127)
+seat_sector = (0, 8)
 
 
 def get_sector(sector, def_chars, s_type=None):
@@ -52,10 +53,6 @@ def get_sector(sector, def_chars, s_type=None):
     # TODO we could validate output. Ex: assert len(set(sector)) == 1
     return sector
 
-
-# Start sectors
-row_sector = (0, 127)
-seat_sector = (0, 8)
 
 seat_id_lst = []
 for b_pass in boarding_pass:

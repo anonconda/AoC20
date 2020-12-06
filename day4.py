@@ -14,9 +14,9 @@ from collections import defaultdict
 
 pass_fields = ["byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid", "cid"]
 
-# Passport data structure: a dictionary (Key: unique passport ID) of a dictionary (containing passport fields)
+# Passport data structure: a dictionary where "Key: unique passport ID" and "Value: dictionary with passport field vals"
 pass_id = 1
-pass_data_obj = defaultdict(lambda: defaultdict(None))
+passport_data_dt = defaultdict(lambda: defaultdict(None))
 
 pass_list = []
 with open(r"./day4_input") as fh:
@@ -26,18 +26,18 @@ with open(r"./day4_input") as fh:
             # Create new passport object by creating new ID in data structure
             pass_id += 1
         else:
-            dt = pass_data_obj[pass_id]
+            dt = passport_data_dt[pass_id]
             for field in pass_fields:
                 if field in row:
                     field_val = row.strip("\n").split(f"{field}:")[1].split(" ")[0]
                     dt[field] = field_val
 
-print(f"Total passports: {len(pass_data_obj)}")
+print(f"Total passports: {len(passport_data_dt)}")
 
-# Part 1: make cip field optional
+# Part 1: Make cip field optional
 required_fields = {"byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"}
 pass_valid = []
-for pass_id, pass_data in pass_data_obj.items():
+for pass_id, pass_data in passport_data_dt.items():
     valid = True
     for field in required_fields:
         if field not in pass_data.keys():
@@ -50,7 +50,7 @@ for pass_id, pass_data in pass_data_obj.items():
 print(f"Number of valid passports (1st Pass): {len(pass_valid)}")
 
 
-# Part2: Strict check of passport fields
+# Part 2: Strict check of passport fields
 # byr (Birth Year) - four digits; at least 1920 and at most 2002.
 # iyr (Issue Year) - four digits; at least 2010 and at most 2020.
 # eyr (Expiration Year) - four digits; at least 2020 and at most 2030.
@@ -68,7 +68,7 @@ valid_hcl_char = {"a", "b", "c", "d", "e", "f", "0", "1", "2", "3", "4", "5", "6
 strict_valid_pass = []
 for pass_data in pass_valid:
 
-    # Tracking error messages to help debugging and validate
+    # Tracking error messages to help debugging
     error_msg = set()
     valid = True
     for field in pass_data.keys():
@@ -106,7 +106,7 @@ for pass_data in pass_valid:
             continue
 
         if pass_data["hcl"].startswith("#"):
-            # Check string if of given length with valid char only
+            # Check if string is of given length and contain only valid characters
             hc = pass_data["hcl"].strip("#")
             if not len(hc) == 6 or set(list(hc)).difference(valid_hcl_char):
                 error_msg.add("Invalid hcl: {}".format(pass_data["hcl"]))
@@ -142,6 +142,5 @@ for pass_data in pass_valid:
             print(pass_data)
             print(" ".join(sorted(error_msg)))
             print("\n")
-
 
 print(f"Number of valid passports (Strict): {len(strict_valid_pass)}")

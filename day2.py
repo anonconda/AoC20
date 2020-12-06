@@ -1,8 +1,8 @@
 # Source: https://adventofcode.com/2020/day/2
 
-# Part 1: Find if password (2nd column) fits the password policy (1st column)
 from collections import namedtuple, Counter
 
+# Upload information into a convenient data structure
 Data = namedtuple("Data", "n_range target password")
 
 data = []
@@ -16,6 +16,7 @@ with open(r"./day2_input") as fh:
         r_data = Data(n_range=n_range, target=c_target, password=pass_str)
         data.append(r_data)
 
+# Part 1: Find if password (2nd column) fits the password policy (1st column)
 valid = []
 for d in data:
     char_count = Counter(d.password)
