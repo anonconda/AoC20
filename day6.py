@@ -22,10 +22,9 @@ groups_answers_lst = []
 with open(r"./day6_input") as fh:
     grp = []
     for row in fh:
-        if not row.strip("\n"):
-            if grp:
-                groups_answers_lst.append(grp)
-                grp = []
+        if not row.strip("\n") and grp:
+            groups_answers_lst.append(grp)
+            grp = []
         else:
             per_ans = row.strip("\n")
             grp.append(per_ans)
